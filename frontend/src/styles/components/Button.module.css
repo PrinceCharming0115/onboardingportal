@@ -1,0 +1,40 @@
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+    font-weight: 550;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 8px;
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase;
+    font-size: 15px;
+    min-width: 9rem;
+  }
+  
+  .primary {
+    background-color: #61365E; /* Purple */
+    color: white;
+  }
+  
+  .primary:hover {
+    background-color: #61365E;
+  }
+  
+  .secondary {
+    background-color: white;
+    color: #61365E;
+    border: 1px solid #61365E;
+  }
+  
+  .secondary:hover {
+    background-color: #61365E;
+    color: white;
+  }
+  
+  .icon {
+    display: flex;
+    align-items: center;
+  }
