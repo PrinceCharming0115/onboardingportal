@@ -34,7 +34,7 @@ jobs:
 
         -   name: Get secrets from Azure Key Vault
             id: get-secrets
-            uses: azure/keyvault@v1
+            uses: azure/get-keyvault-secrets@v1
             with:
                 keyvault: devteamtestkv
                 secrets: |
