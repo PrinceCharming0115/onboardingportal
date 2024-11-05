@@ -19,48 +19,6 @@ jobs:
         steps:
         -   uses: actions/checkout@v3
 
-        -   name: Set up Go
-            uses: actions/setup-go@v4
-            with:
-                go-version: '1.23.2'
-                cache: true
-                cache-dependency-path: backend/go.sum
-
-        -   name: Install dependencies
-            run: go mod download
-        
-        # -   name: Run tests
-        #     run: go test -v ./...
-
-        -   name: Get secrets from Azure Key Vault
-            id: get-secrets
-            uses: azure/get-keyvault-secrets@v1
-            with:
-                keyvault: devteamtestkv
-                secrets: |
-                    password
-
-        -   name: Create env file
-            working-directory: ./backend
-            run: |
-                cat << EOF > .env
-                password=${{ steps.get-secrets.outputs.password }}
-                SQLITE_HOT=${{ secrets.SQLITE_HOT }}
-                SQLITE_PORT=${{ secrets.SQLITE_PORT }}
-                SQLITE_USER=${{ secrets.SQLITE_USER }}
-                SQLITE_PASSWORD=${{ secrets.SQLITE_PASSWORD }}
-                SQLITE_DB_NAME=${{ secrets.SQLITE_DB_NAME }}
-                SERVER_PORT=${{ secrets.SERVER_PORT }}
-                SATELLITE_ISS=${{ secrets.SATELLITE_ISS }}
-                SATELLITE_AUD=${{ secrets.SATELLITE_AUD }}
-                SATELLITE_X5C=${{ secrets.SATELLITE_X5C }}
-                SATELLITE_PRIVATE_KEY_PATH=${{ secrets.SATELLITE_PRIVATE_KEY_PATH }}
-                SATELLITE_BASE_URL=${{ secrets.SATELLITE_BASE_URL }}
-                EOF
-
-        -   name: Build
-            run: go build -o myapp ./cmd/...
-
         -   name: Copy files via ssh
             uses: appleboy/scp-action@master
             with:
@@ -78,4 +36,9 @@ jobs:
                 key: ${{ secrets.AZURE_VM_SSH_KEY }}
                 script: |
                     cd /home/${{ secrets.AZURE_VM_USERNAME }}/backend
-                    pm2 start myapp --name myapp
+                    docker build -t myapp .
+                    # Stop and remove existing container if it exists
+                    docker stop myapp || true
+                    docker rm myapp || true
+                    # Run new container
+                    docker run -d --name myapp -p 5000:5000 myapp
