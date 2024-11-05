@@ -51,5 +51,5 @@ jobs:
                 username: ${{ secrets.AZURE_VM_USERNAME }}
                 key: ${{ secrets.AZURE_VM_SSH_KEY }}
                 script: |
-                    cd /home/${{ secrets.AZURE_VM_USERNAME }}/onboardingportal/backend
+                    cd /home/${{ secrets.AZURE_VM_USERNAME }}/backend
                     nohup ./myapp
