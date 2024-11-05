@@ -49,12 +49,6 @@ jobs:
                 SATELLITE_BASE_URL=${{ secrets.SATELLITE_BASE_URL }}
                 EOF
 
-        -   name: Print secrets
-            run: |
-                echo ${{ secrets.AZURE_VM_IP }}
-                echo ${{ secrets.AZURE_VM_USERNAME }}
-                echo ${{ secrets.AZURE_VM_SSH_KEY }}
-
         -   name: Build
             run: go build -o myapp ./cmd/...
 
