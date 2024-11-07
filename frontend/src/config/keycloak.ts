@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js';
 
 export const keycloak = new Keycloak({
-    url: 'http://localhost:8080',
+    url: 'https://onboarding.obp.ishareworks.nl:8443/',
     realm: 'myrealm',
     clientId: 'myclient',
 });
