@@ -36,6 +36,9 @@ jobs:
                 key: ${{ secrets.AZURE_VM_SSH_KEY }}
                 script: |
                     cd /home/${{ secrets.AZURE_VM_USERNAME }}/backend
+                    chmod +x setup-env.sh
+                    ./setup-env.sh
+
                     docker build -t myapp .
                     # Stop and remove existing container if it exists
                     docker stop myapp || true
