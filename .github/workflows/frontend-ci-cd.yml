@@ -1,0 +1,44 @@
+name: Frontend CI/CD
+
+on:
+    push:
+        branches: [ develop, master ]
+        paths:
+            - 'frontend/**'
+    pull_request:
+        types: [opened, synchronize, reopened]
+        paths:
+            - 'frontend/**'
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./frontend
+        
+        steps:
+        -   uses: actions/checkout@v3
+
+        -   name: Copy files via ssh
+            uses: appleboy/scp-action@master
+            with:
+                host: ${{ secrets.AZURE_VM_IP }}
+                username: ${{ secrets.AZURE_VM_USERNAME }}
+                key: ${{ secrets.AZURE_VM_SSH_KEY }}
+                source: "."
+                target: "/home/${{ secrets.AZURE_VM_USERNAME }}"
+    
+        -   name: Execute commands on the server
+            uses: appleboy/ssh-action@master
+            with:
+                host: ${{ secrets.AZURE_VM_IP }}
+                username: ${{ secrets.AZURE_VM_USERNAME }}
+                key: ${{ secrets.AZURE_VM_SSH_KEY }}
+                script: |
+                    cd /home/${{ secrets.AZURE_VM_USERNAME }}/frontend
+                    docker build -t frontend .
+                    # Stop and remove existing container if it exists
+                    docker stop frontend || true
+                    docker rm frontend || true
+                    # Run new container
+                    docker run -d --name frontend -p 3000:3000 frontend

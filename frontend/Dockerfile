@@ -25,7 +25,6 @@ COPY --from=build /app/package.json /app/yarn.lock ./
 
 # Copy built assets
 COPY --from=build /app/.next ./.next
-COPY --from=build /app/public ./public
 
 # Install production dependencies only
 RUN yarn install --production --frozen-lockfile
