@@ -28,7 +28,7 @@ jobs:
                 SERVER_PORT=$(az keyvault secret show --name "SERVER-PORT" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_ISS=$(az keyvault secret show --name "SATELLITE-ISS" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_AUD=$(az keyvault secret show --name "SATELLITE-AUD" --vault-name "devteamtestkv" --query "value" -o tsv)
-                SATELLITE_X5C=$(az keyvault secret show --name "SATELLITE_X5C" --vault-name "devteamtestkv" --query "value" -o tsv)
+                SATELLITE_X5C=$(az keyvault secret show --name "SATELLITE-X5C" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_PRIVATE_KEY_PATH=$(az keyvault secret show --name "SATELLITE-PRIVATE-KEY-PATH" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_BASE_URL=$(az keyvault secret show --name "SATELLITE-BASE-URL" --vault-name "devteamtestkv" --query "value" -o tsv)
 
