@@ -23,9 +23,13 @@ jobs:
             run: |
                 cat << 'OUTER' > setup-env.sh
                 #!/bin/bash
+                # Login to Azure and fetch secret
+                az login --identity --username ${{ secrets.AZURE_VM_IDENTITY_ }}
+                SQLITE_HOT=$(az keyvault secret show --name "SQLITE-HOT" --vault-name "devteamtestkv" --query "value" -o tsv)
+
                 # Create .env file
-                cat << 'INNER' > .env
-                SQLITE_HOT=
+                cat << INNER > .env
+                SQLITE_HOT=$SQLITE_HOT
                 SQLITE_PORT=
                 SQLITE_USER=
                 SQLITE_PASSWORD=
