@@ -25,6 +25,11 @@ jobs:
                 #!/bin/bash
                 # Login to Azure and fetch secret
                 az login --identity --username ${{ secrets.AZURE_VM_IDENTITY_ }}
+                SQLITE_HOT=$(az keyvault secret show --name "SQLITE-HOT" --vault-name "devteamtestkv" --query "value" -o tsv)
+                SQLITE_PORT=$(az keyvault secret show --name "SQLITE-PORT" --vault-name "devteamtestkv" --query "value" -o tsv)
+                SQLITE_USER=$(az keyvault secret show --name "SQLITE-USER" --vault-name "devteamtestkv" --query "value" -o tsv)
+                SQLITE_PASSWORD=$(az keyvault secret show --name "SQLITE-PASSWORD" --vault-name "devteamtestkv" --query "value" -o tsv)
+                SQLITE_DB_NAME=$(az keyvault secret show --name "SQLITE-DB-NAME" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SERVER_PORT=$(az keyvault secret show --name "SERVER-PORT" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_ISS=$(az keyvault secret show --name "SATELLITE-ISS" --vault-name "devteamtestkv" --query "value" -o tsv)
                 SATELLITE_AUD=$(az keyvault secret show --name "SATELLITE-AUD" --vault-name "devteamtestkv" --query "value" -o tsv)
@@ -34,12 +39,12 @@ jobs:
 
                 # Create .env file
                 cat << INNER > .env
-                SQLITE_HOT=
-                SQLITE_PORT=
-                SQLITE_USER=
-                SQLITE_PASSWORD=
-                SQLITE_DB_NAME=
-                SERVER_PORT=5000
+                SQLITE_HOT=$SQLITE_HOT
+                SQLITE_PORT=$SQLITE_PORT
+                SQLITE_USER=$SQLITE_USER
+                SQLITE_PASSWORD=$SQLITE_PASSWORD
+                SQLITE_DB_NAME=$SQLITE_DB_NAME
+                SERVER_PORT=$SERVER_PORT
                 SATELLITE_ISS=$SATELLITE_ISS
                 SATELLITE_AUD=$SATELLITE_AUD
                 SATELLITE_X5C=$SATELLITE_X5C
